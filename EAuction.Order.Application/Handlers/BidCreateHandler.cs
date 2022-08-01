@@ -8,7 +8,7 @@ using EAuction.Order.Domain.Repositories;
 using MediatR;
 
 namespace EAuction.Order.Application.Handlers
-{
+{ 
     public class BidCreateHandler : IRequestHandler<BidCreateCommand,BidResponse>
     {
         private readonly IBidRepository _bidRepository;

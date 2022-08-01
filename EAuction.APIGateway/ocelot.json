@@ -26,13 +26,7 @@
     },
     {
       "DownstreamPathTemplate": "/api/v1/Products/DeleteProduct/{productId}",
-      //"DownstreamScheme": "http",
-      //"DownstreamHostAndPorts": [
-      //  {
-      //    "Host": "localhost",
-      //    "Port": 36886
-      //  }
-      //],
+      
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -92,29 +86,6 @@
         "AllowedScopes": []
       },
       "UpstreamPathTemplate": "/e-auction/api/v1/seller/show-bids/{productId}",
-      "UpstreamHttpMethod": [ "GET" ]
-    },
-    {
-      "DownstreamPathTemplate": "/api/v1/Bid/GetBid/{productId}/{buyerEmailId}",
-      //"DownstreamScheme": "http",
-      //"DownstreamHostAndPorts": [
-      //  {
-      //    "Host": "localhost",
-      //    "Port": 59655
-      //  }
-      //],
-      "DownstreamScheme": "https",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "e-auction-bid-api.azurewebsites.net",
-          "Port": 443
-        }
-      ],
-      "AuthenticationOptions": {
-        "AuthenticationProviderKey": "eauction_auth_scheme",
-        "AllowedScopes": []
-      },
-      "UpstreamPathTemplate": "/e-auction/api/v1/seller/show-bid/{productId}/{buyerEmailId}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {

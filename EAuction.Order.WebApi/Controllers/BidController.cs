@@ -19,6 +19,7 @@ using EventBusRabbitMQ.Producer;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using EventBusAzureServiceBus.Abstractions;
 
 namespace EAuction.Order.WebApi.Controllers
 {
@@ -31,7 +32,7 @@ namespace EAuction.Order.WebApi.Controllers
         private readonly IMapper _mapper;
         private readonly IBidRepository _bidRepository;
         private readonly IProductRepository _productRepository;
-
+        private readonly ITopicSender _eventBus;
 
         public BidController(IMediator mediator,
             ILogger<BidController> logger,
@@ -62,21 +63,6 @@ namespace EAuction.Order.WebApi.Controllers
             return Ok(bids);
         }
 
-        [HttpGet("GetBid/{productId}/{buyerEmailId}")]
-        [ProducesResponseType(typeof(IEnumerable<BidResponse>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public async Task<ActionResult<IEnumerable<BidResponse>>> GetBidByProductIdAndEmailId(string productId, string buyerEmailId)
-        {
-            var query = new GetBidsByProductIdAndEmailIdQuery(productId, buyerEmailId);
-            var bid = await _mediator.Send(query);
-
-            if (bid == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(bid);
-        }
 
         [HttpPost("PlaceBid")]
         [ProducesResponseType(typeof(EAuction.Order.Domain.Entities.Bid), (int)HttpStatusCode.Created)]
@@ -87,7 +73,7 @@ namespace EAuction.Order.WebApi.Controllers
 
             try
             {
-                //await _eventBus.SendMessage(eventMessage);
+                await _eventBus.SendMessage(eventMessage);
             }
             catch (Exception ex)
             {
